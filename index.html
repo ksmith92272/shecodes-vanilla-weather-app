@@ -43,25 +43,76 @@
 				</form>
 			</header>
 			<main>
-				<div>
-					<div>
-						<h1>Dallas</h1>
-						<p>U.S.A</p>
-					</div>
-					<div>
-						<p>Tuesday, 9:41</p>
-					</div>
+				<div class="city-country-day-time">
+					<span class="city-country">
+						<h1
+							class="city"
+							id="city"
+						>
+							Dallas
+						</h1>
+						<br />
+						<p
+							class="label"
+							id="country"
+						>
+							U.S.A
+						</p>
+					</span>
+					<span
+						class="day-time"
+						id="day-time"
+					>
+						Tuesday<br />9:41
+					</span>
 				</div>
 				<div>
 					<p>
-						Clear sky ☀️ <br />
-						Humidity: 59<br />
-						Wind: 10 m/h<br />
-						Feels like: 44°
+						<span
+							class="condition-desc"
+							id="condition-desc"
+							>Clear sky</span
+						><span
+							class="condition-icon"
+							id="condition-icon"
+							>☀️</span
+						><br />
+						<span class="label">Humidity: </span
+						><span
+							class="current-result"
+							id="current-humidity"
+							>59</span
+						><br />
+						<span class="label">Wind: </span
+						><span class="current-result"
+							><span id="current-wind-speed">10</span>m/h</span
+						><br />
+						<span class="label">Feels like: </span
+						><span class="current-result"
+							><span id="current-feels-like">44</span>°</span
+						>
 					</p>
 				</div>
 				<div>
-					<p><span>48</span><span>°F</span> | <span>°C</span></p>
+					<p>
+						<span
+							class="current-temp"
+							id="current-temp"
+							>48</span
+						><span class="units-selector"
+							><span
+								class="selected"
+								id="fahrenheit"
+								>°F</span
+							>
+							|
+							<span
+								class="unselected"
+								id="celcius"
+								>°C</span
+							>
+						</span>
+					</p>
 				</div>
 			</main>
 		</div>
