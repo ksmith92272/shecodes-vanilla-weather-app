@@ -27,8 +27,11 @@
 	</head>
 	<body>
 		<div class="container">
-			<header class="search-form">
-				<form action="">
+			<header>
+				<form
+					id="search-form"
+					class="search-form"
+				>
 					<input
 						type="search"
 						placeholder="Enter a city..."
@@ -74,24 +77,25 @@
 							>Clear sky</span
 						>
 						<br />
-						<span class="label">Humidity: </span
-						><span
-							class="current-result"
-							id="current-humidity"
-							>59</span
-						>
-						<br />
-						<span class="label">Wind: </span
+						<span class="label"
+							><img src="images/percent.svg" /> Humidity: </span
 						><span class="current-result"
-							><span id="current-wind-speed">10</span>m/h</span
+							><span id="current-humidity">59</span>%</span
 						>
 						<br />
-						<span class="label">Feels like: </span
+						<span class="label"><img src="images/wind.svg" /> Wind: </span
+						><span class="current-result"
+							><span id="current-wind-speed">10</span>
+							<span id="wind-speed-units">m/h</span></span
+						>
+						<br />
+						<span class="label"
+							><img src="images/thermometer.svg" /> Feels like: </span
 						><span class="current-result"
 							><span id="current-feels-like">44</span>°</span
 						>
 					</span>
-					<span>
+					<span class="current-weather">
 						<span
 							class="condition-icon"
 							id="condition-icon"
@@ -108,8 +112,7 @@
 							>
 								°F</span
 							>
-							|
-							<span
+							|<span
 								class="deselected"
 								id="celcius"
 								>°C</span
