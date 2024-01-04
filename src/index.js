@@ -138,6 +138,30 @@ function convertToMetric() {
 	}
 }
 
+function displayForecast() {
+	let days = [`Tue`, `Wed`, `Thu`, `Fri`, `Sat`];
+	let forecastHTML = "";
+
+	days.forEach(function (day) {
+		forecastHTML =
+			forecastHTML +
+			`<div class="forecast-day">
+						<div class="forecast-date">${day}</div>
+						<img
+							src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/clear-sky-day.png"
+							class="forecast-icon"
+						/>
+						<div class="forecast-temperatures">
+							<span class="forecast-max">18°</span>
+							<span class="forecast-min">12°</span>
+						</div>
+					</div>`;
+	});
+
+	let forecastElement = document.getElementById("forecast-container");
+	forecastElement.innerHTML = forecastHTML;
+}
+
 //Event listeners
 let searchFormElement = document.getElementById("search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
@@ -150,3 +174,5 @@ metricUnitElement.addEventListener("click", convertToMetric);
 
 //On page load
 searchCity("Dallas");
+
+displayForecast();
