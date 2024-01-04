@@ -9,7 +9,7 @@ body {
 	box-shadow: 0 30px 50px rgba(65, 50, 100, 0.08);
 	display: block;
 	margin: 8px auto;
-	max-width: 400px;
+	max-width: 600px;
 	padding: 16px;
 }
 
@@ -115,10 +115,8 @@ h1 {
 }
 
 .condition-icon {
-	font-size: 56px;
-	margin-right: 8px;
-	position: relative;
-	top: 8px;
+	width: 92px;
+	height: 92px;
 }
 
 .current-temp {

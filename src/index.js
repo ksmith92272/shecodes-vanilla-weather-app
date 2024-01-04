@@ -20,7 +20,7 @@ function updateWeather(response) {
 	let humidity = response.data.temperature.humidity;
 	let wind = response.data.wind.speed;
 	let feels_like = response.data.temperature.feels_like;
-	let icon = response.data.condition.icon;
+	let icon = response.data.condition.icon_url;
 	let date = new Date(response.data.time * 1000);
 	let formattedDate = formatDate(date);
 
@@ -49,7 +49,7 @@ function updateWeather(response) {
 	windElement.innerHTML = Math.round(wind);
 	feelsLikeElement.innerHTML = Math.round(feels_like);
 	dateElement.innerHTML = formattedDate;
-	//iconElement.innerHTML = icon;
+	iconElement.src = icon;
 
 	let searchFormElement = document.getElementById("search-form");
 	searchFormElement.reset();
