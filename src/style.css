@@ -91,9 +91,10 @@ h1 {
 	margin-top: 28px;
 }
 
-.current-result {
+.current-result,
+.forecast-date {
 	font-size: 16px;
-	font-weight: 400;
+	font-weight: 500;
 }
 
 .current-weather-container {
@@ -136,6 +137,32 @@ h1 {
 
 .deselected:hover {
 	cursor: pointer;
+}
+
+.row {
+	display: flex;
+	justify-content: space-between;
+}
+
+.forecast-container {
+	margin-top: 28px;
+	margin-bottom: 16px;
+	text-align: center;
+	width: 60px;
+}
+
+.forecast-icon {
+	width: 48px;
+}
+
+.forecast-max {
+	font-size: 16px;
+	font-weight: 500;
+}
+
+.forecast-min {
+	font-size: 16px;
+	font-weight: 200;
 }
 
 footer {
