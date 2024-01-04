@@ -18,7 +18,7 @@ function updateWeather(response) {
 	let description = response.data.condition.description;
 	let temp = response.data.temperature.current;
 	let humidity = response.data.temperature.humidity;
-	let wind = response.data.wind.speed;
+	let wind = parseFloat(response.data.wind.speed) * 3.6;
 	let feels_like = response.data.temperature.feels_like;
 	let icon = response.data.condition.icon_url;
 	let date = new Date(response.data.time * 1000);
@@ -28,7 +28,7 @@ function updateWeather(response) {
 		//convert to imperial if fahrenheit is selected
 		temp = (parseFloat(temp) * 9) / 5 + 32;
 		feels_like = (parseFloat(feels_like) * 9) / 5 + 32;
-		wind = parseFloat(wind) / 2.237;
+		wind = parseFloat(wind) / 1.609;
 	}
 
 	let cityElement = document.getElementById("city");
@@ -51,6 +51,7 @@ function updateWeather(response) {
 	dateElement.innerHTML = formattedDate;
 	iconElement.src = icon;
 
+	//clear form
 	let searchFormElement = document.getElementById("search-form");
 	searchFormElement.reset();
 }
@@ -67,12 +68,6 @@ function formatDate(date) {
 		minutes = `0${minutes}`;
 	}
 
-	if (document.getElementById("imperial").classList.contains("selected")) {
-		if (hours > 12) {
-			hours = hours - 12;
-		}
-	}
-
 	let days = [
 		"Sunday",
 		"Monday",
@@ -87,7 +82,71 @@ function formatDate(date) {
 	return `${day}<br />${hours}:${minutes}`;
 }
 
-searchCity("Tokyo");
+function convertToImperial() {
+	if (document.getElementById("imperial").classList.contains("deselected")) {
+		let tempElement = document.getElementById("current-temp");
+		let feelsLikeElement = document.getElementById("feels-like");
+		let windSpeedElement = document.getElementById("wind");
+		let windSpeedUnitsElement = document.getElementById("wind-speed-units");
 
+		temp = parseFloat(tempElement.textContent) * 1.8 + 32;
+		feels_like = parseFloat(feelsLikeElement.textContent) * 1.8 + 32;
+		wind_speed = parseFloat(windSpeedElement.textContent) / 1.609;
+		windSpeedUnits = "mi/h";
+
+		tempElement.innerHTML = Math.round(temp);
+		feelsLikeElement.innerHTML = Math.round(feels_like);
+		windSpeedElement.innerHTML = Math.round(wind_speed);
+		windSpeedUnitsElement.innerHTML = windSpeedUnits;
+
+		let imperialUnitsElement = document.getElementById("imperial");
+		let metricsUnitsElement = document.getElementById("metric");
+
+		imperialUnitsElement.classList.remove("deselected");
+		imperialUnitsElement.classList.add("selected");
+
+		metricsUnitsElement.classList.remove("selected");
+		metricsUnitsElement.classList.add("deselected");
+	}
+}
+
+function convertToMetric() {
+	if (document.getElementById("metric").classList.contains("deselected")) {
+		let tempElement = document.getElementById("current-temp");
+		let feelsLikeElement = document.getElementById("feels-like");
+		let windSpeedElement = document.getElementById("wind");
+		let windSpeedUnitsElement = document.getElementById("wind-speed-units");
+
+		temp = (parseFloat(tempElement.textContent) - 32) / 1.8;
+		feels_like = (parseFloat(feelsLikeElement.textContent) - 32) / 1.8;
+		wind_speed = parseFloat(windSpeedElement.textContent) * 1.609;
+		windSpeedUnits = "km/h";
+
+		tempElement.innerHTML = Math.round(temp);
+		feelsLikeElement.innerHTML = Math.round(feels_like);
+		windSpeedElement.innerHTML = Math.round(wind_speed);
+		windSpeedUnitsElement.innerHTML = windSpeedUnits;
+
+		let imperialUnitsElement = document.getElementById("imperial");
+		let metricsUnitsElement = document.getElementById("metric");
+
+		imperialUnitsElement.classList.remove("selected");
+		imperialUnitsElement.classList.add("deselected");
+
+		metricsUnitsElement.classList.remove("deselected");
+		metricsUnitsElement.classList.add("selected");
+	}
+}
+
+//Event listeners
 let searchFormElement = document.getElementById("search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
+
+let imperialUnitElement = document.getElementById("imperial");
+imperialUnitElement.addEventListener("click", convertToImperial);
+
+let metricUnitElement = document.getElementById("metric");
+metricUnitElement.addEventListener("click", convertToMetric);
+
+//On page load
+searchCity("Dallas");

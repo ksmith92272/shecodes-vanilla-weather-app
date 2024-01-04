@@ -9,11 +9,8 @@ body {
 	box-shadow: 0 30px 50px rgba(65, 50, 100, 0.08);
 	display: block;
 	margin: 8px auto;
-	max-width: 600px;
+	max-width: 500px;
 	padding: 16px;
-}
-
-header {
 }
 
 .search-form {
