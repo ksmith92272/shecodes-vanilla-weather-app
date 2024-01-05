@@ -150,11 +150,11 @@ h1 {
 
 .forecast-day {
 	text-align: center;
-	width: 60px;
+	width: 56px;
 }
 
 .forecast-icon {
-	width: 48px;
+	width: 100%;
 }
 
 .forecast-max {
