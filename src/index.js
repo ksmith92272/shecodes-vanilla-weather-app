@@ -12,23 +12,49 @@ function searchCity(city) {
 	axios.get(apiUrl).then(updateWeather);
 }
 
+function toCelcius(temp) {
+	let celcius = (parseFloat(temp) - 32) / 1.8;
+	return celcius;
+}
+
+function toFahrenheit(temp) {
+	let fahrenheit = parseFloat(temp) * 1.8 + 32;
+	return fahrenheit;
+}
+
+function toKmHFromMeS(meS) {
+	let kmH = parseFloat(meS) * 3.6;
+	return kmH;
+}
+
+function toKmHFromMiH(miH) {
+	let kmH = parseFloat(miH / 1.609);
+	return kmH;
+}
+
+function toMiHFromKmH(kmH) {
+	let miH = parseFloat(kmH) * 1.609;
+	return miH;
+}
+
 function updateWeather(response) {
 	let city = response.data.city;
 	let country = response.data.country;
 	let description = response.data.condition.description;
 	let temp = response.data.temperature.current;
 	let humidity = response.data.temperature.humidity;
-	let wind = parseFloat(response.data.wind.speed) * 3.6;
+	let wind = toKmHFromMeS(response.data.wind.speed);
 	let feels_like = response.data.temperature.feels_like;
 	let icon = response.data.condition.icon_url;
+
 	let date = new Date(response.data.time * 1000);
 	let formattedDate = formatDate(date);
 
 	if (document.getElementById("imperial").classList.contains("selected")) {
 		//convert to imperial if fahrenheit is selected
-		temp = (parseFloat(temp) * 9) / 5 + 32;
-		feels_like = (parseFloat(feels_like) * 9) / 5 + 32;
-		wind = parseFloat(wind) / 1.609;
+		temp = toFahrenheit(temp);
+		feels_like = toFahrenheit(feels_like);
+		wind = toKmHFromMiH(wind);
 	}
 
 	let cityElement = document.getElementById("city");
@@ -50,6 +76,8 @@ function updateWeather(response) {
 	feelsLikeElement.innerHTML = Math.round(feels_like);
 	dateElement.innerHTML = formattedDate;
 	iconElement.src = icon;
+
+	getForecast(response.data.city);
 
 	//clear form
 	let searchFormElement = document.getElementById("search-form");
@@ -89,15 +117,48 @@ function convertToImperial() {
 		let windSpeedElement = document.getElementById("wind");
 		let windSpeedUnitsElement = document.getElementById("wind-speed-units");
 
-		temp = parseFloat(tempElement.textContent) * 1.8 + 32;
-		feels_like = parseFloat(feelsLikeElement.textContent) * 1.8 + 32;
-		wind_speed = parseFloat(windSpeedElement.textContent) / 1.609;
+		let forecast0MaxElement = document.getElementById("0max");
+		let forecast0MinElement = document.getElementById("0min");
+		let forecast1MaxElement = document.getElementById("1max");
+		let forecast1MinElement = document.getElementById("1min");
+		let forecast2MaxElement = document.getElementById("2max");
+		let forecast2MinElement = document.getElementById("2min");
+		let forecast3MaxElement = document.getElementById("3max");
+		let forecast3MinElement = document.getElementById("3min");
+		let forecast4MaxElement = document.getElementById("4max");
+		let forecast4MinElement = document.getElementById("4min");
+
+		temp = toFahrenheit(tempElement.textContent);
+		feels_like = toFahrenheit(feelsLikeElement.textContent);
+		wind_speed = toMiHFromKmH(windSpeedElement.textContent);
 		windSpeedUnits = "mi/h";
+
+		max0 = toFahrenheit(forecast0MaxElement.textContent);
+		min0 = toFahrenheit(forecast0MinElement.textContent);
+		max1 = toFahrenheit(forecast1MaxElement.textContent);
+		min1 = toFahrenheit(forecast1MinElement.textContent);
+		max2 = toFahrenheit(forecast2MaxElement.textContent);
+		min2 = toFahrenheit(forecast2MinElement.textContent);
+		max3 = toFahrenheit(forecast3MaxElement.textContent);
+		min3 = toFahrenheit(forecast3MinElement.textContent);
+		max4 = toFahrenheit(forecast4MaxElement.textContent);
+		min4 = toFahrenheit(forecast4MinElement.textContent);
 
 		tempElement.innerHTML = Math.round(temp);
 		feelsLikeElement.innerHTML = Math.round(feels_like);
 		windSpeedElement.innerHTML = Math.round(wind_speed);
 		windSpeedUnitsElement.innerHTML = windSpeedUnits;
+
+		forecast0MaxElement.innerHTML = Math.round(max0);
+		forecast0MinElement.innerHTML = Math.round(min0);
+		forecast1MaxElement.innerHTML = Math.round(max1);
+		forecast1MinElement.innerHTML = Math.round(min1);
+		forecast2MaxElement.innerHTML = Math.round(max2);
+		forecast2MinElement.innerHTML = Math.round(min2);
+		forecast3MaxElement.innerHTML = Math.round(max3);
+		forecast3MinElement.innerHTML = Math.round(min3);
+		forecast4MaxElement.innerHTML = Math.round(max4);
+		forecast4MinElement.innerHTML = Math.round(min4);
 
 		let imperialUnitsElement = document.getElementById("imperial");
 		let metricsUnitsElement = document.getElementById("metric");
@@ -116,16 +177,48 @@ function convertToMetric() {
 		let feelsLikeElement = document.getElementById("feels-like");
 		let windSpeedElement = document.getElementById("wind");
 		let windSpeedUnitsElement = document.getElementById("wind-speed-units");
+		let forecast0MaxElement = document.getElementById("0max");
+		let forecast0MinElement = document.getElementById("0min");
+		let forecast1MaxElement = document.getElementById("1max");
+		let forecast1MinElement = document.getElementById("1min");
+		let forecast2MaxElement = document.getElementById("2max");
+		let forecast2MinElement = document.getElementById("2min");
+		let forecast3MaxElement = document.getElementById("3max");
+		let forecast3MinElement = document.getElementById("3min");
+		let forecast4MaxElement = document.getElementById("4max");
+		let forecast4MinElement = document.getElementById("4min");
 
-		temp = (parseFloat(tempElement.textContent) - 32) / 1.8;
-		feels_like = (parseFloat(feelsLikeElement.textContent) - 32) / 1.8;
-		wind_speed = parseFloat(windSpeedElement.textContent) * 1.609;
+		temp = toCelcius(tempElement.textContent);
+		feels_like = toCelcius(feelsLikeElement.textContent);
+		wind_speed = toKmHFromMiH(windSpeedElement.textContent);
 		windSpeedUnits = "km/h";
+
+		max0 = toCelcius(forecast0MaxElement.textContent);
+		min0 = toCelcius(forecast0MinElement.textContent);
+		max1 = toCelcius(forecast1MaxElement.textContent);
+		min1 = toCelcius(forecast1MinElement.textContent);
+		max2 = toCelcius(forecast2MaxElement.textContent);
+		min2 = toCelcius(forecast2MinElement.textContent);
+		max3 = toCelcius(forecast3MaxElement.textContent);
+		min3 = toCelcius(forecast3MinElement.textContent);
+		max4 = toCelcius(forecast4MaxElement.textContent);
+		min4 = toCelcius(forecast4MinElement.textContent);
 
 		tempElement.innerHTML = Math.round(temp);
 		feelsLikeElement.innerHTML = Math.round(feels_like);
 		windSpeedElement.innerHTML = Math.round(wind_speed);
 		windSpeedUnitsElement.innerHTML = windSpeedUnits;
+
+		forecast0MaxElement.innerHTML = Math.round(max0);
+		forecast0MinElement.innerHTML = Math.round(min0);
+		forecast1MaxElement.innerHTML = Math.round(max1);
+		forecast1MinElement.innerHTML = Math.round(min1);
+		forecast2MaxElement.innerHTML = Math.round(max2);
+		forecast2MinElement.innerHTML = Math.round(min2);
+		forecast3MaxElement.innerHTML = Math.round(max3);
+		forecast3MinElement.innerHTML = Math.round(min3);
+		forecast4MaxElement.innerHTML = Math.round(max4);
+		forecast4MinElement.innerHTML = Math.round(min4);
 
 		let imperialUnitsElement = document.getElementById("imperial");
 		let metricsUnitsElement = document.getElementById("metric");
@@ -138,24 +231,53 @@ function convertToMetric() {
 	}
 }
 
-function displayForecast() {
-	let days = [`Tue`, `Wed`, `Thu`, `Fri`, `Sat`];
+function getForecast(city) {
+	let key = `6atoab0f92eca3d102a54e7250f4dd0f`;
+	let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}`;
+
+	axios(apiUrl).then(displayForecast);
+}
+
+function formatForecastDay(timestamp) {
+	let date = new Date(timestamp * 1000);
+	let days = [`Sun`, `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`];
+
+	return days[date.getDay()];
+}
+
+function displayForecast(response) {
 	let forecastHTML = "";
 
-	days.forEach(function (day) {
-		forecastHTML =
-			forecastHTML +
-			`<div class="forecast-day">
-						<div class="forecast-date">${day}</div>
+	response.data.daily.forEach(function (day, index) {
+		if (index < 5) {
+			let date = formatForecastDay(day.time);
+			let icon = day.condition.icon_url;
+			let maxTemp = day.temperature.maximum;
+			let minTemp = day.temperature.minimum;
+
+			if (document.getElementById("imperial").classList.contains("selected")) {
+				maxTemp = toFahrenheit(day.temperature.maximum);
+				minTemp = toFahrenheit(day.temperature.minimum);
+			}
+
+			forecastHTML =
+				forecastHTML +
+				`<div class="forecast-day">
+						<div class="forecast-date">${date}</div>
 						<img
-							src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/clear-sky-day.png"
+							src=${icon}
 							class="forecast-icon"
 						/>
 						<div class="forecast-temperatures">
-							<span class="forecast-max">18°</span>
-							<span class="forecast-min">12°</span>
+							<span class="forecast-max"><span id=${index}max>${Math.round(
+					maxTemp
+				)}</span>°</span>
+							<span class="forecast-min"><span id=${index}min>${Math.round(
+					minTemp
+				)}</span>°</span>
 						</div>
 					</div>`;
+		}
 	});
 
 	let forecastElement = document.getElementById("forecast-container");
@@ -174,5 +296,3 @@ metricUnitElement.addEventListener("click", convertToMetric);
 
 //On page load
 searchCity("Dallas");
-
-displayForecast();
