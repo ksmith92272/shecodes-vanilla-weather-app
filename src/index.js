@@ -7,7 +7,8 @@ function handleSearchSubmit(event) {
 
 function searchCity(city) {
 	let key = "6atoab0f92eca3d102a54e7250f4dd0f";
-	let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${key}`;
+	let units = "imperial";
+	let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${key}&units=${units}`;
 
 	axios.get(apiUrl).then(updateWeather);
 }
@@ -22,18 +23,13 @@ function toFahrenheit(temp) {
 	return fahrenheit;
 }
 
-function toKmHFromMeS(meS) {
-	let kmH = parseFloat(meS) * 3.6;
-	return kmH;
-}
-
 function toKmHFromMiH(miH) {
-	let kmH = parseFloat(miH / 1.609);
+	let kmH = parseFloat(miH / 1.60934);
 	return kmH;
 }
 
 function toMiHFromKmH(kmH) {
-	let miH = parseFloat(kmH) * 1.609;
+	let miH = parseFloat(kmH) * 1.60934;
 	return miH;
 }
 
@@ -43,17 +39,17 @@ function updateWeather(response) {
 	let description = response.data.condition.description;
 	let temp = response.data.temperature.current;
 	let humidity = response.data.temperature.humidity;
-	let wind = toKmHFromMeS(response.data.wind.speed);
+	let wind = response.data.wind.speed;
 	let feels_like = response.data.temperature.feels_like;
 	let icon = response.data.condition.icon_url;
 
 	let date = new Date(response.data.time * 1000);
 	let formattedDate = formatDate(date);
 
-	if (document.getElementById("imperial").classList.contains("selected")) {
-		//convert to imperial if fahrenheit is selected
-		temp = toFahrenheit(temp);
-		feels_like = toFahrenheit(feels_like);
+	if (document.getElementById("metric").classList.contains("selected")) {
+		//convert to metric if celcius is selected
+		temp = toCelsius(temp);
+		feels_like = toCelsius(feels_like);
 		wind = toKmHFromMiH(wind);
 	}
 
